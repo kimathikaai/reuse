@@ -1,4 +1,5 @@
 import csv
+import sys
 import logging
 import os
 import shutil
@@ -102,3 +103,7 @@ def copy_files_from_csv(source_dir: str, csv_file: str):
     logger.info(
         f"Copied {len(sample_paths)} files from {source_dir} to {target_dir} using {csv_file}"
     )
+
+if __name__ == "__main__":
+    copy_files_from_csv(*sys.argv[1:])
+    
