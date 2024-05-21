@@ -1,8 +1,8 @@
 import csv
-import sys
 import logging
 import os
 import shutil
+import sys
 from datetime import datetime
 from glob import glob
 from pathlib import Path
@@ -63,7 +63,7 @@ def read_paths_csv(csv_path: str) -> List[str]:
     return path_list
 
 
-def copy_files_from_csv(source_dir: str, csv_file: str):
+def copy_files_from_csv(source_dir: str, csv_file: str, commit=None):
     """
     Move files from a directory `source_dir` into a different
     directory (i.e. `source_dir + time`) if the are in the `csv_file`.
@@ -96,14 +96,15 @@ def copy_files_from_csv(source_dir: str, csv_file: str):
     assert len(included_paths) == len(sample_paths), assert_string
 
     # Create the target directory
-    os.mkdir(target_dir)
-    for path in tqdm(sample_paths):
-        shutil.copy(path, target_dir)
+    if commit:
+        os.mkdir(target_dir)
+        for path in tqdm(sample_paths):
+            shutil.copy(path, target_dir)
 
     logger.info(
         f"Copied {len(sample_paths)} files from {source_dir} to {target_dir} using {csv_file}"
     )
 
+
 if __name__ == "__main__":
     copy_files_from_csv(*sys.argv[1:])
-    
